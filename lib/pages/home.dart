@@ -1,4 +1,6 @@
+import 'package:buscadorspotify/pages/search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -16,10 +18,15 @@ class HomePage extends StatelessWidget {
           alignment: Alignment.centerLeft,
           margin: EdgeInsets.fromLTRB(10, 30, 0, 0),
           height: 40,
-          child: Icon(
-            Icons.cancel_outlined,
-            size: 40,
-            color: Colors.red,
+          child: GestureDetector(
+            onTap: () {
+              SystemNavigator.pop();
+            },
+            child: Icon(
+              Icons.cancel_outlined,
+              size: 40,
+              color: Colors.red,
+            ),
           ),
         ),
         Column(
@@ -54,7 +61,16 @@ class HomePage extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                        tipo: "canción",
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             Container(
@@ -63,13 +79,22 @@ class HomePage extends StatelessWidget {
               margin: EdgeInsets.all(10),
               child: ElevatedButton(
                 child: Text(
-                  "Album",
+                  "Álbum",
                   style: TextStyle(fontSize: 35),
                 ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                        tipo: "álbum",
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             Container(
@@ -84,7 +109,16 @@ class HomePage extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchPage(
+                        tipo: "artista",
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

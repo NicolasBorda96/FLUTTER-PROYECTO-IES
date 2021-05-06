@@ -18,6 +18,12 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, size: 38),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text(
           "Buscar por $tipo",
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

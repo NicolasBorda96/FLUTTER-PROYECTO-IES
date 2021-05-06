@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
-      title: 'Buscardor de Spotify',
+      title: 'Buscador de Spotify',
       theme: ThemeData.dark(),
       home: HomePage(),
     );

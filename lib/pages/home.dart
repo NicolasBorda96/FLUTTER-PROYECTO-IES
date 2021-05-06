@@ -1,6 +1,8 @@
 import 'package:buscadorspotify/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -64,10 +66,12 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => SearchPage(
+                    PageTransition(
+                      child: SearchPage(
                         tipo: "canción",
                       ),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 300),
                     ),
                   );
                 },
@@ -88,10 +92,12 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => SearchPage(
+                    PageTransition(
+                      child: SearchPage(
                         tipo: "álbum",
                       ),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 300),
                     ),
                   );
                 },
@@ -112,10 +118,12 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => SearchPage(
+                    PageTransition(
+                      child: SearchPage(
                         tipo: "artista",
                       ),
+                      type: PageTransitionType.rightToLeft,
+                      duration: Duration(milliseconds: 300),
                     ),
                   );
                 },
@@ -127,7 +135,9 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.all(20),
           child: Text(
             "AppsLand",
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            style: GoogleFonts.courgette(
+              textStyle: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            ),
           ),
         )
       ],

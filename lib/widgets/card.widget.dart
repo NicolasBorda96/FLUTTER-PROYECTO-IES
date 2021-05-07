@@ -1,6 +1,7 @@
 import 'package:buscadorspotify/models/album.model.dart';
 import 'package:buscadorspotify/models/artist.model.dart';
 import 'package:buscadorspotify/models/track.model.dart';
+import 'package:buscadorspotify/models/util.model.dart' as util;
 import 'package:buscadorspotify/pages/detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -48,13 +49,7 @@ class CardWidget extends StatelessWidget {
                 height: 130,
                 width: 130,
                 padding: EdgeInsets.all(5),
-                child: track.album.images == null
-                    ? Image(
-                        image: AssetImage('assets/image-not-available.png'),
-                      )
-                    : FadeInImage(
-                        placeholder: AssetImage('assets/loading-animation.gif'),
-                        image: NetworkImage(track.album.images[1].url)),
+                child: getImage(track.album.images),
               ),
               Expanded(
                 child: Column(
@@ -83,21 +78,7 @@ class CardWidget extends StatelessWidget {
                         style: TextStyle(fontSize: 15),
                       ),
                     ),
-                    RatingBar.builder(
-                      initialRating: track.popularity / 20,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 1),
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
+                    getRating(track.popularity),
                   ],
                 ),
               ),
@@ -131,13 +112,7 @@ class CardWidget extends StatelessWidget {
                 height: 130,
                 width: 130,
                 padding: EdgeInsets.all(5),
-                child: album.images == null
-                    ? Image(
-                        image: AssetImage('assets/image-not-available.png'),
-                      )
-                    : FadeInImage(
-                        placeholder: AssetImage('assets/loading-animation.gif'),
-                        image: NetworkImage(album.images[1].url)),
+                child: getImage(album.images),
               ),
               Expanded(
                 child: Column(
@@ -166,21 +141,7 @@ class CardWidget extends StatelessWidget {
                         style: TextStyle(fontSize: 15),
                       ),
                     ),
-                    RatingBar.builder(
-                      initialRating: album.popularity / 20,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 1),
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
+                    getRating(album.popularity),
                   ],
                 ),
               ),
@@ -214,13 +175,7 @@ class CardWidget extends StatelessWidget {
                 height: 130,
                 width: 130,
                 padding: EdgeInsets.all(5),
-                child: artist.images == null
-                    ? Image(
-                        image: AssetImage('assets/image-not-available.png'),
-                      )
-                    : FadeInImage(
-                        placeholder: AssetImage('assets/loading-animation.gif'),
-                        image: NetworkImage(artist.images[1].url)),
+                child: getImage(artist.images),
               ),
               Expanded(
                 child: Column(
@@ -242,21 +197,7 @@ class CardWidget extends StatelessWidget {
                         style: TextStyle(fontSize: 15),
                       ),
                     ),
-                    RatingBar.builder(
-                      initialRating: artist.popularity / 20,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 1),
-                      itemBuilder: (context, index) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    ),
+                    getRating(artist.popularity),
                   ],
                 ),
               ),
@@ -277,5 +218,33 @@ class CardWidget extends StatelessWidget {
     String text = list.toString();
     text = text.substring(1, text.length - 1);
     return text == "" ? "Sin información" : text;
+  }
+
+  Widget getImage(List<util.Image> images) {
+    return images == null
+        ? Image(
+            image: AssetImage('assets/images/image-not-available.png'),
+          )
+        : FadeInImage(
+            placeholder: AssetImage('assets/images/loading-animation.gif'),
+            image: NetworkImage(images[1].url));
+  }
+
+  RatingBar getRating(int popularity) {
+    return RatingBar.builder(
+      initialRating: popularity / 20,
+      minRating: 1,
+      direction: Axis.horizontal,
+      allowHalfRating: true,
+      itemCount: 5,
+      itemPadding: EdgeInsets.symmetric(horizontal: 1),
+      itemBuilder: (context, index) => Icon(
+        Icons.star,
+        color: Colors.amber,
+      ),
+      onRatingUpdate: (rating) {
+        print(rating);
+      },
+    );
   }
 }

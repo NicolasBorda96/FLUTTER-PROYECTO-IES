@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
               child: Image(
-                image: AssetImage("assets/Spotify_Logo_RGB_Green.png"),
+                image: AssetImage("assets/images/Spotify_Logo_RGB_Green.png"),
               ),
             ),
           ],

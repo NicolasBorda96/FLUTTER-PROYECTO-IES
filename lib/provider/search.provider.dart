@@ -3,11 +3,10 @@ import 'package:buscadorspotify/models/album.model.dart';
 import 'package:buscadorspotify/models/artist.model.dart';
 import 'package:buscadorspotify/models/track.model.dart';
 import 'package:buscadorspotify/models/util.model.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class SearchProvider {
-  final String clientId = "d80431132aa844c982076908a247b981";
-  final String clientSecret = "cf8047d1e66e4a87ab2d06ed4a53b4f6";
   String tokenType;
   String accessToken;
 
@@ -87,11 +86,15 @@ class SearchProvider {
   }
 
   Future<void> getToken() async {
+    var jsonConfing = await rootBundle.loadString("assets/configs/config.json");
+    Map<String, dynamic> data =
+        convert.json.decode(jsonConfing) as Map<String, dynamic>;
+    data = data['clientData'];
+    String clave = convert.base64.encode(
+        convert.utf8.encode('${data['clientId']}:${data['clientSecret']}'));
     Map<String, String> queryParameters = {
       'grant_type': 'client_credentials',
     };
-    String clave =
-        convert.base64.encode(convert.utf8.encode('$clientId:$clientSecret'));
     Map<String, String> headerParameters = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic $clave',

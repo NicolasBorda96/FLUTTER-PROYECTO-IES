@@ -25,12 +25,16 @@ class Artist {
 
   factory Artist.fromJson(Map<String, dynamic> json) => Artist(
         externalUrls: ExternalUrls.fromJson(json["external_urls"]),
-        genres: List<String>.from(json["genres"].map((x) => x)),
+        genres: json["genres"] != null
+            ? List<String>.from(json["genres"].map((x) => x))
+            : [],
         href: json["href"],
         id: json["id"],
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        images: json["images"] != null
+            ? List<Image>.from(json["images"].map((x) => Image.fromJson(x)))
+            : [],
         name: json["name"],
-        popularity: json["popularity"],
+        popularity: json["popularity"] != null ? json["popularity"] : 0,
         type: json["type"],
         uri: json["uri"],
       );

@@ -23,7 +23,7 @@ class Album {
   List<Image> images;
   String name;
   int popularity;
-  DateTime releaseDate;
+  String releaseDate;
   String releaseDatePrecision;
   String type;
   String uri;
@@ -36,8 +36,8 @@ class Album {
         id: json["id"],
         images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
         name: json["name"],
-        popularity: json["popularity"],
-        releaseDate: DateTime.parse(json["release_date"]),
+        popularity: json["popularity"] != null ? json["popularity"] : 0,
+        releaseDate: json["release_date"],
         releaseDatePrecision: json["release_date_precision"],
         type: json["type"],
         uri: json["uri"],
@@ -51,8 +51,7 @@ class Album {
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
         "name": name,
         "popularity": popularity,
-        "release_date":
-            "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
+        "release_date": releaseDate,
         "release_date_precision": releaseDatePrecision,
         "type": type,
         "uri": uri,

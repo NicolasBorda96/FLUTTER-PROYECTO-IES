@@ -34,7 +34,7 @@ class CardWidget extends StatelessWidget {
           Navigator.push(
             context,
             PageTransition(
-              child: DetailPage(),
+              child: DetailPage(id: track.id),
               type: PageTransitionType.rightToLeft,
               duration: Duration(milliseconds: 300),
             ),
@@ -97,7 +97,7 @@ class CardWidget extends StatelessWidget {
           Navigator.push(
             context,
             PageTransition(
-              child: DetailPage(),
+              child: DetailPage(id: album.id),
               type: PageTransitionType.rightToLeft,
               duration: Duration(milliseconds: 300),
             ),
@@ -160,7 +160,7 @@ class CardWidget extends StatelessWidget {
           Navigator.push(
             context,
             PageTransition(
-              child: DetailPage(),
+              child: DetailPage(id: artist.id),
               type: PageTransitionType.rightToLeft,
               duration: Duration(milliseconds: 300),
             ),

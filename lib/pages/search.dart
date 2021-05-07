@@ -2,6 +2,7 @@ import 'package:buscadorspotify/models/album.model.dart';
 import 'package:buscadorspotify/models/artist.model.dart';
 import 'package:buscadorspotify/models/track.model.dart';
 import 'package:buscadorspotify/provider/search.provider.dart';
+import 'package:buscadorspotify/widgets/card.widget.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -105,9 +106,9 @@ class _SearchPageState extends State<SearchPage> {
           builder: (BuildContext context, AsyncSnapshot<List<Track>> snapshot) {
             if (snapshot.hasData) {
               final List<Track> datos = snapshot.data;
-              List<Text> list = [];
+              List<CardWidget> list = [];
               datos.forEach((item) {
-                list.add(Text(item.name));
+                list.add(CardWidget(tipo: tipo, track: item));
               });
               return ListView(children: list);
             } else {
@@ -122,9 +123,9 @@ class _SearchPageState extends State<SearchPage> {
           builder: (BuildContext context, AsyncSnapshot<List<Album>> snapshot) {
             if (snapshot.hasData) {
               final List<Album> datos = snapshot.data;
-              List<Text> list = [];
+              List<CardWidget> list = [];
               datos.forEach((item) {
-                list.add(Text(item.name));
+                list.add(CardWidget(tipo: tipo, album: item));
               });
               return ListView(children: list);
             } else {
@@ -140,9 +141,9 @@ class _SearchPageState extends State<SearchPage> {
               (BuildContext context, AsyncSnapshot<List<Artist>> snapshot) {
             if (snapshot.hasData) {
               final List<Artist> datos = snapshot.data;
-              List<Text> list = [];
+              List<CardWidget> list = [];
               datos.forEach((item) {
-                list.add(Text(item.name));
+                list.add(CardWidget(tipo: tipo, artist: item));
               });
               return ListView(children: list);
             } else {

@@ -1,28 +1,44 @@
 import 'package:buscadorspotify/models/track.model.dart';
 import 'package:buscadorspotify/provider/detail.provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:buscadorspotify/widgets/card.widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends StatelessWidget {
   String id;
+  String tipo;
 
-  DetailPage({this.id});
+  DetailPage({this.tipo, this.id});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Detalle"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, size: 38),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          "Detalle",
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.green,
       ),
       body: _body(),
     );
   }
 
   Widget _body() {
+    if (tipo == "canción") {
+      return getDetailTrack();
+    }else{
+      return Container();
+    } 
+  }
+
+  Widget getDetailTrack() {
     DetailProvider detailProvider = DetailProvider();
     CardWidget card = CardWidget();
     return FutureBuilder(
@@ -31,74 +47,67 @@ class DetailPage extends StatelessWidget {
           if (snapshot.hasData) {
             Track track = snapshot.data;
             return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 10, 10, 30),
+                Container(
+                  width: 300,
+                  height: 300,
+                  padding: EdgeInsets.all(20),
                   child: card.getImage(track.album.images),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(40),
-                    child: Text(track.name, style: TextStyle(fontSize: 40))),
-                Column(
-                  children: [
-                    Text(track.album.name, style: TextStyle(fontSize: 30))
-                  ],
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    track.name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 40),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Duracion: "),
-                    Text(card.millisToMinutesAndSeconds(track.durationMs)),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(
+                    'Álbum: ${track.album.name}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [Text("Fecha: "), Text(track.album.releaseDate)],
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                          "Duracion: ${card.millisToMinutesAndSeconds(track.durationMs)}"),
+                      Text("Fecha: ${track.album.releaseDate}"),
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Popularidad: "),
-                    RatingBar.builder(
-                      initialRating: track.popularity / 20,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Popularidad: "),
+                      card.getRating(track.popularity),
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Container(
-                      width: 250,
-                      height: 60,
-                      margin: EdgeInsets.all(10),
-                      child: ElevatedButton(
-                        child: Text(
-                          "Reproducir",
-                          style: TextStyle(fontSize: 35),
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.green),
-                        ),
-                        onPressed: () {
-                          launch(track.externalUrls.spotify);
-                        },
-                      ),
+                Container(
+                  width: 250,
+                  height: 60,
+                  margin: EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    child: Text(
+                      "Reproducir",
+                      style: TextStyle(fontSize: 35),
                     ),
-                  ],
-                )
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                    ),
+                    onPressed: () {
+                      launch(track.externalUrls.spotify);
+                    },
+                  ),
+                ),
               ],
             );
           } else {
@@ -106,4 +115,5 @@ class DetailPage extends StatelessWidget {
           }
         });
   }
+  
 }

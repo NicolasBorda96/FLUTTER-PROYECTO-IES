@@ -1,3 +1,4 @@
+import 'package:buscadorspotify/models/album.model.dart';
 import 'package:buscadorspotify/models/track.model.dart';
 import 'package:buscadorspotify/provider/detail.provider.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,8 @@ class DetailPage extends StatelessWidget {
   Widget _body() {
     if (tipo == "canción") {
       return getDetailTrack();
+    }else if (tipo == "álbum") {
+      return getDetailAlbum();
     }else{
       return Container();
     } 
@@ -105,6 +108,83 @@ class DetailPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       launch(track.externalUrls.spotify);
+                    },
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Container();
+          }
+        });
+  }
+
+   Widget getDetailAlbum() {
+    DetailProvider detailProvider = DetailProvider();
+    CardWidget card = CardWidget();
+    return FutureBuilder(
+        future: detailProvider.getAlbum(id),
+        builder: (BuildContext context, AsyncSnapshot<Album> snapshot) {
+          if (snapshot.hasData) {
+            Album album = snapshot.data;
+            return Column(
+              children: [
+                Container(
+                  width: 300,
+                  height: 300,
+                  padding: EdgeInsets.all(20),
+                  child: card.getImage(album.images),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    album.name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 40),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(
+                    'Artista: ${album.artists.first.name}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text("Tipo: ${album.type}"),
+                      Text("Fecha: ${album.releaseDate}"),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Popularidad: "),
+                      card.getRating(album.popularity),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 250,
+                  height: 60,
+                  margin: EdgeInsets.all(20),
+                  child: ElevatedButton(
+                    child: Text(
+                      "Reproducir",
+                      style: TextStyle(fontSize: 35),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                    ),
+                    onPressed: () {
+                      launch(album.externalUrls.spotify);
                     },
                   ),
                 ),
